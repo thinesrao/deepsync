@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepSync - AI-Powered Workflow Automation</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://i.imgur.com/uR1k3Jc.png">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Archivo Black & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <style>
+        :root {
+            --bg-dark: #0D1117;
+            --primary-green: #2bfca4;
+            --secondary-green: #27e3c8;
+            --accent-blue-1: #37e1fa;
+            --accent-blue-2: #2798e3;
+            --accent-blue-3: #2b72fc;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: #E6EDF3;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Archivo Black', sans-serif;
+        }
+
+        .hero-gradient-bg {
+            background-image: radial-gradient(circle at 50% 30%, rgba(39, 152, 227, 0.15) 0%, rgba(13, 17, 23, 0) 40%);
+        }
+
+        .btn-primary {
+            background-image: linear-gradient(to right, var(--primary-green) 0%, var(--secondary-green) 100%);
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(43, 252, 164, 0.3);
+            cursor: pointer;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(43, 252, 164, 0.5);
+        }
+
+        .glass-card {
+            background: rgba(22, 27, 34, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(55, 225, 250, 0.1);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            border-color: rgba(55, 225, 250, 0.3);
+            transform: translateY(-5px);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(to right, var(--accent-blue-1), #FFFFFF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .glow-border {
+            position: relative;
+        }
+        .glow-border::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 0.75rem; /* 12px */
+            padding: 1px;
+            background: linear-gradient(120deg, var(--accent-blue-2), var(--secondary-green));
+            -webkit-mask: 
+                linear-gradient(#fff 0 0) content-box, 
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+        .glow-border:hover::before {
+            opacity: 1;
+        }
+        
+        .step-item {
+            border-left: 2px solid rgba(55, 225, 250, 0.2);
+            padding-left: 2rem;
+            position: relative;
+        }
+        .step-item::before {
+            content: '';
+            position: absolute;
+            left: -10px; /* Adjust based on circle size */
+            top: 0;
+            width: 18px;
+            height: 18px;
+            border-radius: 9999px;
+            background-color: var(--bg-dark);
+            border: 2px solid var(--accent-blue-1);
+        }
+
+        /* Modal Styles */
+        .modal-backdrop {
+            transition: opacity 0.3s ease-in-out;
+        }
+        .modal-content {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* --- Animations --- */
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Staggered animation delays */
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-600 { animation-delay: 0.6s; }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="absolute top-0 left-0 right-0 z-10 py-5">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="https://raw.githubusercontent.com/thinesrao/deepsync/refs/heads/main/logo-word.svg" alt="DeepSync Logo" class="h-20 w-auto">
+            </div>
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-300">
+                <a href="#features" class="hover:text-white transition-colors">Features</a>
+                <a href="#solutions" class="hover:text-white transition-colors">Solutions</a>
+                <a href="#security" class="hover:text-white transition-colors">Security</a>
+            </nav>
+            <div>
+                <button data-modal-trigger class="hidden md:block btn-primary text-black font-bold py-2 px-5 rounded-lg text-sm">
+                    Request a Demo
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="relative min-h-screen flex items-center justify-center text-center overflow-hidden hero-gradient-bg pt-20">
+            <div class="container mx-auto px-6 relative z-10">
+                <p class="text-lg md:text-xl font-semibold text-gray-400 tracking-widest mb-2 uppercase fade-in-up">DEEPSYNC AI</p>
+                <h1 class="text-5xl md:text-7xl text-white leading-tight mb-4 uppercase fade-in-up delay-200">
+                    Automate Complexity.<br><span class="gradient-text">Unleash Efficiency.</span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-400 max-w-3xl mx-auto mb-8 fade-in-up delay-400">
+                    DeepSync creates AI agents that integrate seamlessly into your workflows, unlocking unprecedented efficiency so your team can focus on what truly matters.
+                </p>
+                <div class="fade-in-up delay-600">
+                    <button data-modal-trigger class="btn-primary text-black font-bold py-3 px-8 rounded-lg text-lg">
+                        Get Started Free
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl text-white">Drive Innovation with Powerful Features</h2>
+                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Focus on what truly matters while our AI handles the rest.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Feature Cards with animations -->
+                    <div class="glass-card p-6 rounded-xl fade-in-up" style="animation-delay: 0.1s;">
+                        <h3 class="text-xl text-white mb-2">Real-time Data Sync</h3>
+                        <p class="text-gray-400 text-sm">Keep your entire stack updated with instantaneous data synchronization across all platforms.</p>
+                    </div>
+                    <div class="glass-card p-6 rounded-xl fade-in-up" style="animation-delay: 0.2s;">
+                        <h3 class="text-xl text-white mb-2">Seamless Integration</h3>
+                        <p class="text-gray-400 text-sm">Our AI agents plug directly into your existing tools and workflows with minimal setup.</p>
+                    </div>
+                    <div id="security" class="glass-card p-6 rounded-xl fade-in-up" style="animation-delay: 0.3s;">
+                        <h3 class="text-xl text-white mb-2">Enterprise-Grade Security</h3>
+                        <p class="text-gray-400 text-sm">Protect your most valuable data with industry-leading protocols and compliance standards.</p>
+                    </div>
+                    <div class="glass-card p-6 rounded-xl fade-in-up" style="animation-delay: 0.4s;">
+                        <h3 class="text-xl text-white mb-2">Scalable Solutions</h3>
+                        <p class="text-gray-400 text-sm">From startup to enterprise, our AI agents grow with you, adapting to your evolving needs.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solutions Section -->
+        <section id="solutions" class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div class="lg:pr-12">
+                        <h2 class="text-4xl md:text-5xl text-white mb-6">A Revolution in Three Simple Steps.</h2>
+                        <p class="text-gray-400 mb-8">
+                            We've engineered DeepSync to be powerful yet intuitive. Transform your operational efficiency by connecting your tools, defining your processes, and letting our AI agents take the wheel.
+                        </p>
+                        <button data-modal-trigger class="btn-primary text-black font-bold py-3 px-8 rounded-lg">
+                            Explore Integrations
+                        </button>
+                    </div>
+                    <div>
+                        <div class="space-y-10">
+                            <div class="step-item pb-4">
+                                <h3 class="text-2xl text-white mb-2">1. Connect</h3>
+                                <p class="text-gray-400">Link your apps and data sources in minutes with our secure, one-click integration library.</p>
+                            </div>
+                            <div class="step-item pb-4">
+                                <h3 class="text-2xl text-white mb-2">2. Configure</h3>
+                                <p class="text-gray-400">Visually map out the workflows you want to automate using our intuitive no-code interface.</p>
+                            </div>
+                            <div class="step-item">
+                                <h3 class="text-2xl text-white mb-2">3. Automate</h3>
+                                <p class="text-gray-400">Deploy your AI agents and watch as complex tasks are executed flawlessly in real-time.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA Section -->
+        <section id="contact" class="py-24">
+            <div class="container mx-auto px-6 text-center">
+                <div class="max-w-3xl mx-auto bg-gray-900 rounded-xl p-8 md:p-12 glow-border">
+                     <h2 class="text-4xl md:text-5xl text-white mb-4">Ready to Transform Your Workflow?</h2>
+                     <p class="text-lg text-gray-400 mx-auto mb-8">
+                        Join the growing number of innovative companies using DeepSync to build the future of work.
+                     </p>
+                     <div class="fade-in-up delay-600">
+                        <button data-modal-trigger class="btn-primary text-black font-bold py-3 px-8 rounded-lg text-lg">
+                            Request Your Free Demo
+                        </button>
+                    </div>
+                    </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800">
+        <div class="container mx-auto px-6 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center text-center md:text-left">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <img src="https://raw.githubusercontent.com/thinesrao/deepsync/refs/heads/main/logo-word.svg" alt="DeepSync Logo" class="h-20 mr-3">
+                    <p class="text-gray-400 text-sm">&copy; 2024 DeepSync Inc. All rights reserved.</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-500 hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="#" class="text-gray-500 hover:text-white transition-colors">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- CTA Modal -->
+    <div id="cta-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-70 modal-backdrop opacity-0 pointer-events-none">
+        <div class="w-full max-w-md bg-gray-900 rounded-xl shadow-2xl p-8 modal-content transform scale-95">
+            <div class="flex justify-between items-center mb-6">
+                <h4 class="text-2xl text-white">Request a Demo</h4>
+                <button id="close-modal-btn" class="text-gray-500 hover:text-white text-3xl leading-none">&times;</button>
+            </div>
+            <div id="form-container">
+                <form id="contact-form">
+                    <div class="mb-4">
+                        <label for="name" class="block text-sm font-medium text-gray-300 mb-1">Full Name</label>
+                        <input type="text" id="name" name="name" required class="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-accent-blue-2">
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-sm font-medium text-gray-300 mb-1">Work Email</label>
+                        <input type="email" id="email" name="email" required class="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-accent-blue-2">
+                    </div>
+                    <div class="mb-6">
+                        <label for="company" class="block text-sm font-medium text-gray-300 mb-1">Company</label>
+                        <input type="text" id="company" name="company" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-accent-blue-2">
+                    </div>
+                    <button type="submit" id="submit-btn" class="w-full btn-primary text-black font-bold py-3 rounded-lg">
+                        Submit Request
+                    </button>
+                </form>
+            </div>
+            <div id="form-message" class="hidden text-center">
+                <!-- Success/Error message will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // This script is wrapped in a try-catch block to prevent any single error from breaking the entire page's interactivity.
+        try {
+            document.addEventListener('DOMContentLoaded', () => {
+                const modal = document.getElementById('cta-modal');
+                const closeModalBtn = document.getElementById('close-modal-btn');
+                const contactForm = document.getElementById('contact-form');
+                const formContainer = document.getElementById('form-container');
+                const formMessage = document.getElementById('form-message');
+                const submitBtn = document.getElementById('submit-btn');
+                const modalContent = modal.querySelector('.modal-content');
+
+                const openModal = () => {
+                    modal.classList.remove('opacity-0', 'pointer-events-none');
+                    modalContent.classList.remove('scale-95');
+                };
+
+                const closeModal = () => {
+                    modal.classList.add('opacity-0');
+                    modalContent.classList.add('scale-95');
+                    setTimeout(() => {
+                        modal.classList.add('pointer-events-none');
+                        // Reset form for next time
+                        formContainer.classList.remove('hidden');
+                        formMessage.classList.add('hidden');
+                        contactForm.reset();
+                    }, 300); // Wait for animation to finish
+                };
+
+                // Find all buttons that should open the modal and attach the event listener.
+                const triggerButtons = document.querySelectorAll('[data-modal-trigger]');
+                triggerButtons.forEach(button => {
+                    button.addEventListener('click', openModal);
+                });
+
+                // Attach listeners for closing the modal
+                closeModalBtn.addEventListener('click', closeModal);
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) { // Only close if clicking on the backdrop
+                        closeModal();
+                    }
+                });
+
+                // Handle the form submission
+                contactForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const formData = new FormData(contactForm);
+                    const data = Object.fromEntries(formData.entries());
+                    
+                    // **IMPORTANT**: Replace with your actual Cloudflare Worker URL
+                    const workerUrl = 'https://deepsync-cta.thinesrao93.workers.dev';
+
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Submitting...';
+
+                    try {
+                        const response = await fetch(workerUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(data),
+                        });
+
+                        if (!response.ok) {
+                            throw new Error(`Server responded with ${response.status}`);
+                        }
+                        
+                        formContainer.classList.add('hidden');
+                        formMessage.innerHTML = `<h4 class="text-2xl text-white mb-4">Thank You!</h4><p class="text-gray-300">Your demo request has been sent. We'll be in touch shortly.</p>`;
+                        formMessage.classList.remove('hidden');
+
+                    } catch (error) {
+                        console.error('Form submission error:', error);
+                        formContainer.classList.add('hidden');
+                        formMessage.innerHTML = `<h4 class="text-2xl text-red-400 mb-4">Error!</h4><p class="text-gray-300">Something went wrong. Please try again later.</p>`;
+                        formMessage.classList.remove('hidden');
+                    } finally {
+                        // Close the modal after a delay, whether success or error
+                        setTimeout(() => {
+                            closeModal();
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = 'Submit Request';
+                        }, 4000);
+                    }
+                });
+            });
+        } catch (e) {
+            console.error('An error occurred in the page script:', e);
+        }
+    </script>
+
+</body>
+</html>
